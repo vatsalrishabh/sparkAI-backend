@@ -9,12 +9,18 @@ const app = express();
 const server = http.createServer(app);
 require('dotenv').config();
 
+
+app.use(express.json());
+
 const io = new Server(server, {
     cors: {
       origin: "*",  // Adjust this for better security
       methods: ["GET", "POST", "DELETE", "PUT", "PATCH"]
     }
 });
+
+
+
 
 let users = {}; // Store connected users (userId -> socketId mapping)
 
