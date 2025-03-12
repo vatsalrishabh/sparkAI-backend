@@ -11,10 +11,10 @@ const generateOtp = () => {
 
 exports.register = async (req, res) => {
     try {
-        const { email, mobile } = req.body;
+        const { collegeEmail, mobile } = req.body; //
 
         // 1. Check if the user is already registered
-        const alreadyRegistered = await User.findOne({ $or: [{ email }, { mobile }] });
+        const alreadyRegistered = await User.findOne({ $or: [{ email:collegeEmail }, { mobile }] });
         if (alreadyRegistered) {
             return res.status(409).json({ message: "User already registered" });
         }
