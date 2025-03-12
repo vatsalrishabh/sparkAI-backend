@@ -10,7 +10,6 @@ app.use(
   cors({
     origin: '*', // Adjust this to your frontend domain for better security
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
   })
 );
 
