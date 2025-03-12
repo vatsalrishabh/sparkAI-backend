@@ -10,7 +10,7 @@ const generateOtp = () => {
 };
 
 exports.register = async (req, res) => {
-    console.log(req.body+"register body")
+    console.log(req.body+"register body");
     try {
         const { collegeEmail, mobile } = req.body; //
 
