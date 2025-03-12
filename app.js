@@ -2,7 +2,7 @@ const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const {saveMessage} = require('./controllers/messageController');
-const {authRoutes } = require("./routes/authRoutes");
+const authRoutes = require("./routes/authRoutes"); // Fix import
 require("./config/db");
 
 const app = express();
