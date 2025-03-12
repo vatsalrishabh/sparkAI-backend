@@ -13,8 +13,9 @@ exports.register = async (req, res) => {
     try {
         const { collegeEmail, mobile } = req.body; //
 
+        let email = collegeEmail;
         // 1. Check if the user is already registered
-        const alreadyRegistered = await User.findOne({ $or: [{ email:collegeEmail }, { mobile }] });
+        const alreadyRegistered = await User.findOne({ $or: [{ email }, { mobile }] });
         if (alreadyRegistered) {
             return res.status(409).json({ message: "User already registered" });
         }

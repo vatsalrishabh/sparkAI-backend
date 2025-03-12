@@ -1,56 +1,67 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema(
+  {
     userId: {
-        type: String,
-        required: true,
-        unique: true
+      type: String,
+      required: true,
+      unique: true
     },
+    email: { type: String, required: true },
+    mobile: { type: String, required: true },
     name: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
-    imgUrl: {
-        type: String,
-        default: ""
+    imgUrls: {
+      type: [String], // Array of Strings
+      validate: {
+        validator: function (arr) {
+          return arr.length <= 6;
+        },
+        message: "You can upload a maximum of 6 images."
+      },
+      default: []
     },
     age: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true
     },
     gender: {
-        type: String,
-        enum: ["Male", "Female", "Other"],
-        required: true
+      type: String,
+      enum: ["Male", "Female", "Other"],
+      required: true
     },
     dpURL: {
-        type: String,
-        default: ""
+      type: String,
+      default: ""
     },
     bio: {
-        type: String,
-        default: ""
+      type: String,
+      default: ""
     },
     description: {
-        type: String,
-        default: ""
+      type: String,
+      default: ""
     },
     about: {
-        type: String,
-        default: ""
+      type: String,
+      default: ""
     },
     latitude: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true
     },
     longitude: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true
     },
     lastSeen: {
-        type: Date,
-        default: Date.now
+      type: Date,
+      default: Date.now
     }
-}, { timestamps: true });
+  },
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("User", UserSchema);
