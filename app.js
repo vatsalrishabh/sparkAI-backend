@@ -19,6 +19,10 @@ app.use(bodyParser.json());
 // In-memory storage for demonstration purposes
 const locationData = [];
 
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
 // Endpoint to handle location data
 app.post('/', (req, res) => {
   try {
