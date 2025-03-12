@@ -1,61 +1,49 @@
 const express = require('express');
+const http = require('http');  // Required for Socket.IO
+const { Server } = require('socket.io');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware to handle CORS with detailed configuration
-app.use(
-  cors({
-    origin: '*', // Adjust this to your frontend domain for better security
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  })
-);
+// Create an HTTP server
+const server = http.createServer(app);
 
-// Middleware to parse JSON request bodies
-app.use(bodyParser.json());
-
-// In-memory storage for demonstration purposes
-const locationData = [];
-
-
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-// Endpoint to handle location data
-app.post('/', (req, res) => {
-  try {
-    const { latitude, longitude } = req.body;
-
-    // Validate latitude and longitude
-    if (typeof latitude !== 'number' || typeof longitude !== 'number') {
-      return res.status(400).json({ error: 'Latitude and longitude must be numbers' });
-    }
-
-    if (isNaN(latitude) || isNaN(longitude)) {
-      return res.status(400).json({ error: 'Latitude and longitude must be valid numbers' });
-    }
-
-    // Process the location data
-    console.log('Received location data:', { latitude, longitude });
-
-    // Store in in-memory array
-    locationData.push({ latitude, longitude, timestamp: Date.now() });
-
-    res.status(200).json({ message: 'Location data received successfully' });
-  } catch (error) {
-    console.error('Error processing location data:', error);
-    res.status(500).json({ error: 'Internal server error' });
+// Initialize Socket.IO
+const io = new Server(server, {
+  cors: {
+    origin: "*",  // Adjust this for better security
+    methods: ["GET", "POST", "DELETE", "PUT", "PATCH"]
   }
 });
 
-// Endpoint to retrieve all stored location data
-app.get('/locations', (req, res) => {
-  res.status(200).json(locationData);
+// Middleware
+app.use(cors());  
+app.use(bodyParser.json());
+
+// Basic route
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
+// Handle Socket.IO connections
+io.on('connection', (socket) => {
+  console.log(`New user connected: ${socket.id}`);
+
+  // Listen for incoming messages
+  socket.on('message', (data) => {
+    console.log(`Message received: ${data}`);
+    io.emit('message', data);  // Broadcast message to all clients
+  });
+
+  // Handle disconnection
+  socket.on('disconnect', () => {
+    console.log(`User disconnected: ${socket.id}`);
+  });
 });
 
 // Start the server
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
