@@ -3,9 +3,8 @@ const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema(
   {
     userId: {
-      type: String,
-      required: true,
-      unique: true
+      type: mongoose.Schema.Types.ObjectId,
+      auto: true // Mongoose will generate automatically
     },
     email: { type: String, required: true },
     mobile: { type: String, required: true },

@@ -47,7 +47,8 @@ exports.register = async (req, res) => {
 
 exports.verifyOtp = async (req, res) => {
     try {
-        const { name, age, gender, email, password, profileImage } = req.body;
+        const { name, age, gender, password, mobile } = req.body;
+        const email = req.body.collegeEmail; // Fix field name
 
         // Check if user already exists
         let user = await User.findOne({ email });
@@ -56,6 +57,12 @@ exports.verifyOtp = async (req, res) => {
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // Handle file upload
+        let profileImage = "";
+        if (req.file) {
+            profileImage = req.file.path; // If using Multer, store the file path
+        }
+
         // Create new user
         user = new User({
             name,
@@ -63,7 +70,8 @@ exports.verifyOtp = async (req, res) => {
             gender,
             email,
             password: hashedPassword,
-            profileImage
+            profileImage,
+            mobile
         });
 
         await user.save();
@@ -78,6 +86,7 @@ exports.verifyOtp = async (req, res) => {
         res.status(500).json({ message: "Server Error" });
     }
 };
+
 
 exports.login = async (req, res) => {
     try {
