@@ -10,7 +10,10 @@ const app = express();
 const server = http.createServer(app);
 require('dotenv').config();
 
-app.use(cors());
+app.use(cors({
+    origin: "*",  // Allows requests from any origin
+    methods: "GET,POST,PUT,DELETE,PATCH,OPTIONS",
+  }));
 app.use(express.json());
 
 const io = new Server(server, {
@@ -68,6 +71,8 @@ io.on("connection", (socket) => {
     });
 });
 
-server.listen(5000, () => {
+
+const PORT = process.env.PORT || 5000; 
+server.listen(PORT, () => {
     console.log("Server running on port 5000");
 });
