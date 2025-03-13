@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema(
       auto: true // Mongoose will generate automatically
     },
     email: { type: String, required: true },
+    password:{ type: String, required: true },
     mobile: { type: String, required: true },
     name: {
       type: String,
@@ -49,11 +50,11 @@ const UserSchema = new mongoose.Schema(
     },
     latitude: {
       type: Number,
-      required: true
+    
     },
     longitude: {
       type: Number,
-      required: true
+  
     },
     lastSeen: {
       type: Date,

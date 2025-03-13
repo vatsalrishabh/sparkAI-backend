@@ -71,7 +71,7 @@ exports.verifyOtp = async (req, res) => {
             gender,
             email,
             password: hashedPassword,
-            profileImage,
+            dpURL:profileImage,
             mobile
         });
 
