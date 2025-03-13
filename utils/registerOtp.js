@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-
+require("dotenv").config();
 // Configure the transporter for sending emails
 const transporter = nodemailer.createTransport({
     service: 'gmail', // You can use other email services if needed
