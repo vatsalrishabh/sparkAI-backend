@@ -1,6 +1,7 @@
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
+const cors = require("cors");
 const {saveMessage} = require('./controllers/messageController');
 const authRoutes = require("./routes/authRoutes"); // Fix import
 require("./config/db");
@@ -9,7 +10,7 @@ const app = express();
 const server = http.createServer(app);
 require('dotenv').config();
 
-
+app.use(cors());
 app.use(express.json());
 
 const io = new Server(server, {
