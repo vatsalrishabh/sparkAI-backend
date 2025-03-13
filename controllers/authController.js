@@ -46,6 +46,7 @@ exports.register = async (req, res) => {
 
 
 exports.verifyOtp = async (req, res) => {
+    console.log(req.body);
     try {
         const { name, age, gender, password, mobile } = req.body;
         const email = req.body.collegeEmail; // Fix field name
